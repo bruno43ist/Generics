@@ -1,31 +1,35 @@
 package application;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import services.PrintService;
+import services.CalculationService;
 
 public class Program {
 
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+		List<Integer> list = new ArrayList<>();
 		
-		PrintService<String> ps = new PrintService<>();
+		String path = "/Users/brunofarias/Desktop/in.txt";
 		
-		System.out.println("How many values? ");
-		int n = sc.nextInt();
-		
-		//ps.addValue("Maria");
-		
-		for(int i = 0; i < n; i++) {
-			String value = sc.next();
-			ps.addValue(value);
+		try(BufferedReader br = new BufferedReader(new FileReader(path))){
+			
+			String line = br.readLine();
+			while(line != null) {
+				list.add(Integer.parseInt(line));
+				line = br.readLine();
+			}
+			
+			Integer x = CalculationService.max(list);
+			System.out.println("Max: ");
+			System.out.println(x);
+			
+		}catch(IOException e) {
+			System.out.println("Error: " + e.getMessage());
 		}
-		
-		ps.print();
-		String x = ps.first();
-		System.out.println("First: " + x);
-
-		sc.close();
 	}
 
 }
